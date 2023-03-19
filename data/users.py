@@ -3,6 +3,15 @@ from flask_login import UserMixin
 
 from .db_session import SqlAlchemyBase
 
+like_table = sqlalchemy.Table(
+    'like',
+    SqlAlchemyBase.metadata,
+    sqlalchemy.Column('books', sqlalchemy.Integer,
+                      sqlalchemy.ForeignKey('books.id')),
+    sqlalchemy.Column('users', sqlalchemy.Integer,
+                      sqlalchemy.ForeignKey('users.id'))
+)
+
 
 class User(SqlAlchemyBase, UserMixin):
     __tablename__ = 'users'

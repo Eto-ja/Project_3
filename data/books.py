@@ -2,6 +2,15 @@ import sqlalchemy
 from .db_session import SqlAlchemyBase
 from sqlalchemy import orm
 
+authors_books_table = sqlalchemy.Table(
+    'authors_books',
+    SqlAlchemyBase.metadata,
+    sqlalchemy.Column('books', sqlalchemy.Integer,
+                      sqlalchemy.ForeignKey('books.id')),
+    sqlalchemy.Column('authors', sqlalchemy.Integer,
+                      sqlalchemy.ForeignKey('authors.id'))
+)
+
 
 class Books(SqlAlchemyBase):
     __tablename__ = 'books'
@@ -10,10 +19,3 @@ class Books(SqlAlchemyBase):
                            primary_key=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     size = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
-
-    autor_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                 sqlalchemy.ForeignKey("authors.id"))
-    book_author = orm.relationship('Authors')
-    genre_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                 sqlalchemy.ForeignKey("genres.id"))
-    book_genre = orm.relationship('Genres')

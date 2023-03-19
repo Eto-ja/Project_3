@@ -3,6 +3,16 @@ from .db_session import SqlAlchemyBase
 from sqlalchemy import orm
 
 
+genres_books_table = sqlalchemy.Table(
+    'genres_books',
+    SqlAlchemyBase.metadata,
+    sqlalchemy.Column('books', sqlalchemy.Integer,
+                      sqlalchemy.ForeignKey('books.id')),
+    sqlalchemy.Column('genres', sqlalchemy.Integer,
+                      sqlalchemy.ForeignKey('genres.id'))
+)
+
+
 class Genres(SqlAlchemyBase):
     __tablename__ = 'genres'
 
@@ -10,11 +20,3 @@ class Genres(SqlAlchemyBase):
                            primary_key=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
-    autor_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                 sqlalchemy.ForeignKey("authors.id"))
-
-    genre_author = orm.relationship('Authors')
-    books_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                 sqlalchemy.ForeignKey("books.id"))
-
-    genre_book = orm.relationship('Books')
