@@ -17,5 +17,5 @@ class Books(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
-    title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    size = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
+    title = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    size = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
