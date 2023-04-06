@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-center">Регистрация</h1>
+    <form class="login_form" action="/register" method="POST">
+        {{ form.hidden_tag() }}
+        <p class="form-center">
+            {{ form.name.label }}<br>
+            {{ form.name(class="form-control", type="str") }}<br>
+            {% for error in form.name.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.age.label }}<br>
+            {{ form.age(class="form-control", type="int") }}<br>
+            {% for error in form.age.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(class="form-control", type="email") }}<br>
+            {% for error in form.email.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(class="form-control", type="password") }}<br>
+            {% for error in form.password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password_again.label }}<br>
+            {{ form.password_again(class="form-control", type="password") }}<br>
+            {% for error in form.password_again.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{form.submit}}</p>
+
+        {% if current_user.is_authenticated %}
+            <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
+        {% else %}
+        {% endif %}
+        {{message}}
+    </form>
+{% endblock %}
