@@ -24,15 +24,9 @@
                 Жанры
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-<!--                <li><a class="dropdown-item" href="#"></a></li>-->
-<!--                <li><a class="dropdown-item" href="#">Приключения</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">Фантастика</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">Боевики</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">Детектив</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">Триллер</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">Романы</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">Научная литература</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">Романы</a></li>-->
+                  {% for i in genres %}
+                    <li><a class="dropdown-item" href="#">{{ i.name }}</a></li>
+                  {% endfor %}
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -40,9 +34,9 @@
                 Авторы
               </a>
               <ul class="dropdown-menu" aria-labelledby="n">
-                <li><a class="dropdown-item" href="#">Действие</a></li>
-                <li><a class="dropdown-item" href="#">Другое действие</a></li>
-                <li><a class="dropdown-item" href="#">Что-то еще</a></li>
+                {% for i in authors %}
+                    <li><a class="dropdown-item" href="#">{{ i.name }}</a></li>
+                {% endfor %}
               </ul>
             </li>
           </ul>
@@ -50,11 +44,9 @@
             <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">
             <button class="btn btn-outline-success" type="submit">Поиск</button>
           </form>
-          <ul class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/register">Зарегестрироваться</a>
-          </ul>
           {% if current_user.is_authenticated %}
               <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
+              <a class="btn btn-outline-danger" href="/">Выйти</a>
           {% else %}
               <p>
                   <a class="btn btn-primary " href="/register">Зарегистрироваться</a>

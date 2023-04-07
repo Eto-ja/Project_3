@@ -6,6 +6,7 @@ from flask import Flask, redirect, render_template, make_response, request
 from data import db_session
 from data.users import User
 from data.genres import Genres
+from data.authors import Authors
 from data.books import Books
 from flask_login import LoginManager, login_user
 from registerform import RegisterForm
@@ -46,9 +47,11 @@ def load_user(user_id):
 
 @app.route('/', methods=['GET'])
 def index():
-    # db_sess = db_session.create_session()
-    # genres = db_sess.query(Genres).all()
-    return render_template('index.html')
+    db_sess = db_session.create_session()
+    genres = db_sess.query(Genres).all()
+    authors = db_sess.query(Authors).all()
+    books = db_sess.query(Books).all()
+    return render_template('index.html', genres=genres, authors=authors, books=books)
 
 
 @app.route('/register', methods=['GET', 'POST'])
