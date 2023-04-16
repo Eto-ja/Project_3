@@ -19,3 +19,6 @@ class Authors(SqlAlchemyBase):
                            primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     surname = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+
+    def __repr__(self):
+        return f'{self.surname} {self.name}'

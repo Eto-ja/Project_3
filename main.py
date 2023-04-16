@@ -8,7 +8,7 @@ from data.users import User
 from data.genres import Genres
 from data.authors import Authors
 from data.books import Books
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from registerform import RegisterForm
 from sign_inform import SignInForm
 
@@ -81,7 +81,7 @@ def register():
 
 # @app.route('/sign_in', methods=['GET', 'POST'])
 # def sign_in():
-#     form = SignInForm
+#     form = SignInForm()
 #     if form.validate_on_submit():
 #         db_sess = db_session.create_session()
 #         user = db_sess.query(User).filter(User.email == form.email.data).first()
@@ -136,7 +136,43 @@ def sign_in():
     return render_template('sign_in.html', title='', form=form)
 
 
+@app.route('/sign_out', methods=['POST'])
+def sign_out():
+    logout_user()
+    return redirect('/')
+
+
+@app.route('/more/<book_id>', methods=['GET'])
+def more(book_id):
+    db_sess = db_session.create_session()
+    book = db_sess.query(Books).filter(Books.id == book_id).first()
+    genres = db_sess.query(Genres).all()
+    authors = db_sess.query(Authors).all()
+    return render_template('more.html', id=book_id, title=book.title, author=book.authors, size=book.size,
+                           photo=book.photo_path, genres=genres, authors=authors)
+
+
+@app.route('/like/<book_id>', methods=['POST'])
+@login_required
+def like(book_id):
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == current_user.id).first()
+    book = db_sess.query(Books).filter(Books.id == book_id).first()
+
+    for i in range(len(user.liked)):
+        if user.liked[i].id == book.id:
+            user.liked.remove(user.liked[i])
+            db_sess.commit()
+            return redirect('/')
+    user.liked.append(book)
+
+    db_sess.commit()
+
+    return redirect('/')
+
+
 if __name__ == '__main__':
     db_session.global_init("db/users.db")
+
     app.run(port=8080, debug=True)
     # q()

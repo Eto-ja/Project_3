@@ -1,5 +1,11 @@
+from typing import List
 import sqlalchemy
+from sqlalchemy.orm import relationship, Mapped
+
+from data.authors import Authors
 from .db_session import SqlAlchemyBase
+
+
 from sqlalchemy import orm
 
 authors_books_table = sqlalchemy.Table(
@@ -19,3 +25,6 @@ class Books(SqlAlchemyBase):
                            primary_key=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     size = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
+    photo_path = sqlalchemy.Column(sqlalchemy.String(4095), nullable=False)
+    authors: Mapped[List[Authors]] = relationship(secondary=authors_books_table)
+    description = sqlalchemy.Column(sqlalchemy.String(4095), nullable=True)
