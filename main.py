@@ -1,6 +1,6 @@
 import datetime
 
-import jwt
+# import jwt
 # from jwt import ExpiredSignatureError
 from flask import Flask, redirect, render_template, make_response, request
 from data import db_session
@@ -51,7 +51,8 @@ def index():
     genres = db_sess.query(Genres).all()
     authors = db_sess.query(Authors).all()
     books = db_sess.query(Books).all()
-    return render_template('index.html', genres=genres, authors=authors, books=books)
+    user = db_sess.query(User).filter(User.id == current_user.id).first()
+    return render_template('index.html', genres=genres, authors=authors, books=books, user=user)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -169,6 +170,19 @@ def like(book_id):
     db_sess.commit()
 
     return redirect('/')
+
+
+@app.route('/like_book', methods=['GET'])
+def like_book():
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == current_user.id).first()
+    book = db_sess.query(Books).all()
+    # a = []
+    # for i in range(len(user.liked)):
+    #     if i.
+    #     a.append()
+
+    return render_template('like.html', id=user, books=book, like=user.liked)
 
 
 if __name__ == '__main__':

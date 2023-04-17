@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-center">Избранные книги</h1>
+    <h3>{{ like }}</h3>
+<!--    <div class="row row-cols-1 row-cols-md-3 g-4">-->
+<!--        <div class="col">-->
+<!--            {% for i in liked %}-->
+<!--                <div class="card" style="width: 18rem;">-->
+<!--                  <img src="{{url_for('static', filename=i.photo_path)}}" class="card-img-top" alt="...">-->
+<!--                  <div class="card-body">-->
+<!--                    <h5 class="card-title">{{ i.title }}</h5>-->
+<!--                    <p class="card-text"></p>-->
+<!--                    <a href="/more/{{ i.id }}" class="btn btn-primary">Подробнее</a>-->
+<!--                    <form method="post" action="/like/{{i.id}}">-->
+<!--                        <input type="submit" class="btn btn-primary" value="❤s"/>-->
+<!--                    </form>-->
+<!--                     <p>{{i.authors}}</p>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+{% for i in range(cars|length) %}
+{% if i % 3 == 0 %}
+<div class="row">
+    {% endif %}
+    <div class="col-sm-4">
+        <br>
+        <div class="card text-bg-dark border-dark">
+            <img src="../static/upload/{{ cars[i][3] }}" class="card-img-top" alt="картинка">
+            <div class="card-body">
+                <h5 class="card-title">{{ cars[i][1] }} - {{ cars[i][2] }}</h5>
+            </div>
+            <div class="card-header">
+                Комплектация
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ cars[i][4] }}</li>
+            </ul>
+            <div class="card-header">
+                Цена
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ cars[i][5] }} тыс. руб.</li>
+            </ul>
+            <div class="card-header">
+                Цвет
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ cars[i][6] }}</li>
+            </ul>
+             <div class="card-header">
+                Год выпуска
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ cars[i][7] }}</li>
+            </ul>
+            <div class="card-body">
+                <a href="/car/{{cars[i][0]}}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% if i % 3 == 2 %}
+</div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
