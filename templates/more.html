@@ -7,9 +7,12 @@
              alt="здесь должна была быть картинка, но не нашлась" width="200" height="500">
       </div>
       <div class="col-md-6 p-4 ps-md-0">
-        <h5 class="mt-0">{{ title }}</h5>
-        <p>{{ size }}</p>
-        <p>{{ authors }}</p>
+        <h5 class="mt-0">Название: {{ title }}</h5>
+        <p>Количество страниц: {{ size }}</p>
+        <p>Автор(-ы): {{ author }}</p>
+        <p>Жанр(-ы): {{ genres }}</p>
+        <p>Краткое описание: {{ description }}</p>
+        <a class="btn btn-success" href="#">Читать</a>
       </div>
     </div>
 {% endblock %}

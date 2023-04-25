@@ -25,18 +25,8 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                   {% for i in genres %}
-                    <li><a class="dropdown-item" href="#">{{ i.name }}</a></li>
+                    <li><a class="dropdown-item" href="/genre/{{i.id}}">{{ i.name }}</a></li>
                   {% endfor %}
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" id="n" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                Авторы
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="n">
-                {% for i in authors %}
-                    <li><a class="dropdown-item" href="#">{{ i.surname }}</a></li>
-                {% endfor %}
               </ul>
             </li>
           </ul>

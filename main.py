@@ -51,8 +51,12 @@ def index():
     genres = db_sess.query(Genres).all()
     authors = db_sess.query(Authors).all()
     books = db_sess.query(Books).all()
-    user = db_sess.query(User).filter(User.id == current_user.id).first()
-    return render_template('index.html', genres=genres, authors=authors, books=books, user=user)
+    if current_user.is_authenticated:
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        book_liked_ids = [b.id for b in user.liked]
+    else:
+        book_liked_ids = [0]
+    return render_template('index.html', genres=genres, authors=authors, books=books, book_liked_ids=book_liked_ids)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -148,9 +152,8 @@ def more(book_id):
     db_sess = db_session.create_session()
     book = db_sess.query(Books).filter(Books.id == book_id).first()
     genres = db_sess.query(Genres).all()
-    authors = db_sess.query(Authors).all()
     return render_template('more.html', id=book_id, title=book.title, author=book.authors, size=book.size,
-                           photo=book.photo_path, genres=genres, authors=authors)
+                           photo=book.photo_path, genre=book.genres, genres=genres, description=book.description)
 
 
 @app.route('/like/<book_id>', methods=['POST'])
@@ -172,17 +175,48 @@ def like(book_id):
     return redirect('/')
 
 
+@app.route('/likei/<book_id>', methods=['POST'])
+@login_required
+def likei(book_id):
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == current_user.id).first()
+    book = db_sess.query(Books).filter(Books.id == book_id).first()
+
+    for i in range(len(user.liked)):
+        if user.liked[i].id == book.id:
+            user.liked.remove(user.liked[i])
+            db_sess.commit()
+            return redirect('/like_book')
+    user.liked.append(book)
+
+    db_sess.commit()
+
+    return redirect('/like_book')
+
+
 @app.route('/like_book', methods=['GET'])
 def like_book():
     db_sess = db_session.create_session()
     user = db_sess.query(User).filter(User.id == current_user.id).first()
     book = db_sess.query(Books).all()
-    # a = []
-    # for i in range(len(user.liked)):
-    #     if i.
-    #     a.append()
 
     return render_template('like.html', id=user, books=book, like=user.liked)
+
+
+@app.route('/genre/<genre_id>', methods=['POST'])
+def sort_genre(genre_id):
+    db_sess = db_session.create_session()
+    book = db_sess.query(Books).all()
+    genres = db_sess.query(Genres).all()
+    genre = db_sess.query(Genres).filter(Genres.id == genre_id).all()
+    need_books = []
+    for i in book:
+        for j in i.genres:
+            if genre_id == j:
+                need_books.append(i)
+
+    return render_template('sort_genre.html', need_books=need_books, genres=genres, genre=genre)
+
 
 
 if __name__ == '__main__':

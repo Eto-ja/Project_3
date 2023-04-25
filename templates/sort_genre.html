@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 class="text-center">Избранные книги</h1>
+    <h1 class="text-center">Жанр: {{ genre }}</h1>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col">
-            {% for i in like %}
+            {% for i in need.books %}
                 <div class="card" style="width: 18rem;">
                   <img src="{{url_for('static', filename=i.photo_path)}}" class="card-img-top" alt="...">
                   <div class="card-body">
