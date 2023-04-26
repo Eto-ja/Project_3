@@ -208,24 +208,32 @@ def like_book():
     db_sess = db_session.create_session()
     user = db_sess.query(User).filter(User.id == current_user.id).first()
     book = db_sess.query(Books).all()
+    genres = db_sess.query(Genres).all()
 
-    return render_template('like.html', id=user, books=book, like=user.liked)
+    return render_template('like.html', id=user, books=book, like=user.liked, genres=genres)
 
 
 # сортировка по жанру
-@app.route('/genre/<genre_id>', methods=['POST'])
+@app.route('/genre/<genre_id>', methods=['GET'])
 def sort_genre(genre_id):
     db_sess = db_session.create_session()
     book = db_sess.query(Books).all()
     genres = db_sess.query(Genres).all()
     genre = db_sess.query(Genres).filter(Genres.id == genre_id).all()
     need_books = []
+    book_liked_ids = []
+    if current_user.is_authenticated:
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        book_liked_ids = [b.id for b in user.liked]
+    else:
+        book_liked_ids = [0]
     for i in book:
         for j in i.genres:
-            if genre_id == j:
+            if int(genre_id) == int(j.id):
                 need_books.append(i)
 
-    return render_template('sort_genre.html', need_books=need_books, genres=genres, genre=genre)
+    return render_template('sort_genre.html', need_books=need_books, genres=genres, genre=genre,
+                           book_liked_ids=book_liked_ids)
 
 
 if __name__ == '__main__':

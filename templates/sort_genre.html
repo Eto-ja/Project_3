@@ -4,7 +4,7 @@
     <h1 class="text-center">Жанр: {{ genre }}</h1>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col">
-            {% for i in need.books %}
+            {% for i in need_books %}
                 <div class="card" style="width: 18rem;">
                   <img src="{{url_for('static', filename=i.photo_path)}}" class="card-img-top" alt="...">
                   <div class="card-body">
@@ -13,9 +13,9 @@
                     <a href="/more/{{ i.id }}" class="btn btn-primary">Подробнее</a>
                     <form method="post" action="/likei/{{i.id}}">
                         {% if i.id in book_liked_ids %}
-                            <input type="submit" class="btn btn-primary" value="♡"/>
-                        {% else %}
                             <input type="submit" class="btn btn-primary" value="♥"/>
+                        {% else %}
+                            <input type="submit" class="btn btn-primary" value="♡"/>
                         {% endif %}
                     </form>
                      <p>{{i.authors}}</p>
