@@ -34,6 +34,7 @@ def q():
     db_sess.commit()
 
 
+# сообщение при успешной регистрации
 @app.route('/good_registration')
 def good():
     return render_template('good_register.html', title='')
@@ -45,6 +46,7 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
+# главная страница
 @app.route('/', methods=['GET'])
 def index():
     db_sess = db_session.create_session()
@@ -59,6 +61,7 @@ def index():
     return render_template('index.html', genres=genres, authors=authors, books=books, book_liked_ids=book_liked_ids)
 
 
+# форма для регистрации
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -126,6 +129,7 @@ def register():
 #     # TODO: add book to favourite
 
 
+# форма для входа в систему
 @app.route('/sign_in', methods=['GET', 'POST'])
 def sign_in():
     form = SignInForm()
@@ -141,12 +145,14 @@ def sign_in():
     return render_template('sign_in.html', title='', form=form)
 
 
+# выход из аккаунта
 @app.route('/sign_out', methods=['POST'])
 def sign_out():
     logout_user()
     return redirect('/')
 
 
+# это появится, если у книжки нажать на подробнее
 @app.route('/more/<book_id>', methods=['GET'])
 def more(book_id):
     db_sess = db_session.create_session()
@@ -156,6 +162,7 @@ def more(book_id):
                            photo=book.photo_path, genre=book.genres, genres=genres, description=book.description)
 
 
+# добавить в избранное книгу или удалить из избранного, находясь на главной странице
 @app.route('/like/<book_id>', methods=['POST'])
 @login_required
 def like(book_id):
@@ -175,6 +182,7 @@ def like(book_id):
     return redirect('/')
 
 
+# добавить в избранное книгу или удалить из избранного, находясь в избранном
 @app.route('/likei/<book_id>', methods=['POST'])
 @login_required
 def likei(book_id):
@@ -194,6 +202,7 @@ def likei(book_id):
     return redirect('/like_book')
 
 
+# избранные книги
 @app.route('/like_book', methods=['GET'])
 def like_book():
     db_sess = db_session.create_session()
@@ -203,6 +212,7 @@ def like_book():
     return render_template('like.html', id=user, books=book, like=user.liked)
 
 
+# сортировка по жанру
 @app.route('/genre/<genre_id>', methods=['POST'])
 def sort_genre(genre_id):
     db_sess = db_session.create_session()
@@ -218,9 +228,7 @@ def sort_genre(genre_id):
     return render_template('sort_genre.html', need_books=need_books, genres=genres, genre=genre)
 
 
-
 if __name__ == '__main__':
     db_session.global_init("db/users.db")
-
     app.run(port=8080, debug=True)
     # q()
